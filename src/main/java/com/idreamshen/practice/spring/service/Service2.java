@@ -1,4 +1,4 @@
-package com.idreamshen.practice.spring;
+package com.idreamshen.practice.spring.service;
 
 import com.idreamshen.practice.spring.annotation.Component;
 

@@ -1,14 +1,19 @@
 package com.idreamshen.practice.spring.bean;
 
+import com.idreamshen.practice.spring.annotation.Autowired;
 import com.idreamshen.practice.spring.annotation.Component;
+import com.idreamshen.practice.spring.util.ReflectUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.JarURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -16,10 +21,15 @@ public class BeanFactory {
 
     private ClassLoader cl = Thread.currentThread().getContextClassLoader();
     private Class mainClazz;
-    private List<Class> beanClasses = new ArrayList<>();
+    private Queue<Class> beanClasses = new LinkedList<>();
+    private Map<String, Object> beans = new HashMap<>();
 
     public BeanFactory(Class mainClazz) {
         this.mainClazz = mainClazz;
+    }
+
+    public <T> T get(Class<T> clazz) {
+       return (T)beans.get(clazz.getSimpleName());
     }
 
     public void initBeans() {
@@ -42,7 +52,7 @@ public class BeanFactory {
             throw new RuntimeException(String.format("未知的 protocol=%s", protocol));
         }
 
-        System.out.println(beanClasses.size());
+        generateBeans();
 
     }
 
@@ -82,19 +92,60 @@ public class BeanFactory {
 
     }
 
-    private boolean isComponentClass(Class clazz) {
-        return clazz.isAnnotationPresent(Component.class);
-    }
-
     private void addClassIfIsComponent(String className) {
         try {
             Class clazz = cl.loadClass(className);
-            if (isComponentClass(clazz)) {
+            if (!clazz.isAnnotation() && clazz.isAnnotationPresent(Component.class)) {
                 beanClasses.add(clazz);
             }
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void generateBeans() {
+
+        while (!beanClasses.isEmpty()) {
+            Class clazz = beanClasses.poll();
+            String beanName = clazz.getSimpleName().endsWith("Impl")
+                    ? clazz.getSimpleName().replace("Impl", "")
+                    : clazz.getSimpleName();
+
+            if (!beans.containsKey(beanName)) {
+                beans.put(beanName, ReflectUtil.newInstance(clazz));
+            }
+
+            Object instance = beans.get(beanName);
+
+            Field[] fields = instance.getClass().getDeclaredFields();
+
+            boolean isUninitializedFieldExist = false;
+
+            for (Field field : fields) {
+
+                if (field.isAnnotationPresent(Autowired.class)) {
+
+                    if (ReflectUtil.getFieldValue(field, instance) == null) {
+
+                        if (beans.containsKey(field.getType().getSimpleName())) {
+                            ReflectUtil.setFieldValue(field, beans.get(field.getType().getSimpleName()), instance);
+                        } else {
+                            isUninitializedFieldExist = true;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            if (isUninitializedFieldExist) {
+                beanClasses.add(clazz);
+            } else {
+                System.out.println(String.format("生成 bean=%s", beanName));
+            }
+        }
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.idreamshen.practice.spring;
+package com.idreamshen.practice.spring.service;
 
 import com.idreamshen.practice.spring.annotation.Component;
 import com.idreamshen.practice.spring.annotation.Log;
@@ -10,7 +10,5 @@ public class Service1Impl implements Service1 {
     public void set() {
         System.out.println("I am service1 set");
     }
-
-
 
 }
