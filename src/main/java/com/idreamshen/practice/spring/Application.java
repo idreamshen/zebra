@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-public class FakeSpring {
+public class Application {
 
     private static Map<String, Object> beans = new HashMap<>();
     private static Queue<Class> classes = new LinkedList<>();
@@ -22,7 +22,7 @@ public class FakeSpring {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
 
-        BeanFactory beanFactory = new BeanFactory(FakeSpring.class);
+        BeanFactory beanFactory = new BeanFactory(Application.class);
         beanFactory.initBeans();
 
         URL url = Thread.currentThread().getContextClassLoader().getResource("com/idreamshen/practice/spring");
