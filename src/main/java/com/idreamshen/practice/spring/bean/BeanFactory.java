@@ -26,7 +26,7 @@ public class BeanFactory {
     private ClassLoader cl = Thread.currentThread().getContextClassLoader();
     private Class mainClazz;
     private Queue<Class> beanClasses = new LinkedList<>();
-    private Map<String, Object> beans = new HashMap<>();
+    public static Map<String, Object> beans = new HashMap<>();
     private Map<String, String> routers = new HashMap<>();
 
     public BeanFactory(Class mainClazz) {
@@ -37,9 +37,11 @@ public class BeanFactory {
        return (T)beans.get(clazz.getSimpleName());
     }
 
-    public String getMethodByRoute(String route) {
-        return routers.get(route);
+    public Map<String, String> getRouters() {
+        return routers;
     }
+
+
 
     public void initBeans() {
 
@@ -175,7 +177,7 @@ public class BeanFactory {
             }
         }
 
-        System.out.println(1111);
+        System.out.println(routers);
 
     }
 
