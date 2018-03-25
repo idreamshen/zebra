@@ -1,7 +1,7 @@
 package com.idreamshen.practice.spring;
 
 import com.idreamshen.practice.spring.bean.BeanFactory;
-import com.idreamshen.practice.spring.controller.Controller;
+import com.idreamshen.practice.spring.controller.HomeController;
 
 import java.io.IOException;
 
@@ -12,9 +12,11 @@ public class Application {
         BeanFactory beanFactory = new BeanFactory(Application.class);
         beanFactory.initBeans();
 
-        Controller controller = beanFactory.get(Controller.class);
-        System.out.println(controller.getService1());
-        System.out.println(controller.getService2());
+        HomeController homeController = beanFactory.get(HomeController.class);
+        System.out.println(homeController.getService1());
+        System.out.println(homeController.getService2());
+
+
 
     }
 

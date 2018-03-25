@@ -2,11 +2,15 @@ package com.idreamshen.practice.spring.bean;
 
 import com.idreamshen.practice.spring.annotation.Autowired;
 import com.idreamshen.practice.spring.annotation.Component;
+import com.idreamshen.practice.spring.annotation.Controller;
+import com.idreamshen.practice.spring.annotation.RequestMapping;
+import com.idreamshen.practice.spring.enums.RequestMethod;
 import com.idreamshen.practice.spring.util.ReflectUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
@@ -23,6 +27,7 @@ public class BeanFactory {
     private Class mainClazz;
     private Queue<Class> beanClasses = new LinkedList<>();
     private Map<String, Object> beans = new HashMap<>();
+    private Map<String, String> routers = new HashMap<>();
 
     public BeanFactory(Class mainClazz) {
         this.mainClazz = mainClazz;
@@ -30,6 +35,10 @@ public class BeanFactory {
 
     public <T> T get(Class<T> clazz) {
        return (T)beans.get(clazz.getSimpleName());
+    }
+
+    public String getMethodByRoute(String route) {
+        return routers.get(route);
     }
 
     public void initBeans() {
@@ -95,7 +104,9 @@ public class BeanFactory {
     private void addClassIfIsComponent(String className) {
         try {
             Class clazz = cl.loadClass(className);
-            if (!clazz.isAnnotation() && clazz.isAnnotationPresent(Component.class)) {
+            if (!clazz.isAnnotation() &&
+                    (clazz.isAnnotationPresent(Component.class)
+                    || clazz.isAnnotationPresent(Controller.class) )) {
                 beanClasses.add(clazz);
             }
         } catch (ClassNotFoundException e) {
@@ -146,6 +157,30 @@ public class BeanFactory {
             }
         }
 
+        for (Map.Entry<String, Object> entry : beans.entrySet()) {
+            String beanName = entry.getKey();
+            Object instance = entry.getValue();
+            if (isHandler(instance.getClass())) {
+                Method[] methods = instance.getClass().getDeclaredMethods();
+                for (Method method : methods) {
+                    if (method.isAnnotationPresent(RequestMapping.class)) {
+                        RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+                        String path = requestMapping.path();
+                        RequestMethod requestMethod = requestMapping.method();
+                        String k = String.format("%s.%s", path, requestMethod.name());
+                        String v = String.format("%s.%s", beanName, method.getName());
+                        routers.put(k, v);
+                    }
+                }
+            }
+        }
+
+        System.out.println(1111);
+
+    }
+
+    private boolean isHandler(Class<?> clazz) {
+        return clazz.isAnnotationPresent(Controller.class);
     }
 
 }
