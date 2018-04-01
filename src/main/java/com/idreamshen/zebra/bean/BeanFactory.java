@@ -5,14 +5,14 @@ import com.idreamshen.zebra.annotation.Component;
 import com.idreamshen.zebra.annotation.Controller;
 import com.idreamshen.zebra.annotation.RequestMapping;
 import com.idreamshen.zebra.enums.RequestMethod;
+import com.idreamshen.zebra.util.PackageUtil;
 import com.idreamshen.zebra.util.ReflectUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.JarURLConnection;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -50,56 +50,9 @@ public class BeanFactory {
 
         if (url == null) throw new RuntimeException(String.format("无法定位 class 文件，package=%s", basePackage));
 
-        String protocol = url.getProtocol();
-        if ("file".equals(protocol)) {
-            scanAndAndClassByFile(new File(url.getPath()));
-        } else if ("jar".equals(protocol)) {
-            try {
-                scanAndAddClassByJar(((JarURLConnection) url.openConnection()).getJarFile());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            throw new RuntimeException(String.format("未知的 protocol=%s", protocol));
-        }
+        Collection<Class> classes = PackageUtil.scanClasses(url);
 
         generateBeans();
-
-    }
-
-    private void scanAndAndClassByFile(File file) {
-
-        if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-                scanAndAndClassByFile(f);
-            }
-        } else {
-
-            if (file.getName().endsWith(".class")) {
-                String filePath = file.getAbsolutePath();
-                String tmp = filePath.split("classes")[1].substring(1);
-                tmp = tmp.substring(0, tmp.length() - 6);
-                String className = tmp.replaceAll("/", ".");
-                addClassIfIsComponent(className);
-            }
-
-        }
-
-    }
-
-    private void scanAndAddClassByJar(JarFile jarFile) {
-
-        Enumeration<JarEntry> jarEntries = jarFile.entries();
-
-        while (jarEntries.hasMoreElements()) {
-            JarEntry jarEntry = jarEntries.nextElement();
-
-            if (jarEntry.getName().endsWith(".class")) {
-                String tmp = jarEntry.getName().substring(0, jarEntry.getName().length() - 6);
-                String className = tmp.replaceAll("/", ".");
-                addClassIfIsComponent(className);
-            }
-        }
 
     }
 
