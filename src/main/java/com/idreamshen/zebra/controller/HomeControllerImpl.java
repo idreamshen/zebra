@@ -1,12 +1,11 @@
-package com.idreamshen.practice.spring.controller;
+package com.idreamshen.zebra.controller;
 
-import com.idreamshen.practice.spring.annotation.Autowired;
-import com.idreamshen.practice.spring.annotation.Component;
-import com.idreamshen.practice.spring.annotation.Controller;
-import com.idreamshen.practice.spring.annotation.RequestMapping;
-import com.idreamshen.practice.spring.enums.RequestMethod;
-import com.idreamshen.practice.spring.service.Service1;
-import com.idreamshen.practice.spring.service.Service2;
+import com.idreamshen.zebra.annotation.Autowired;
+import com.idreamshen.zebra.annotation.Controller;
+import com.idreamshen.zebra.annotation.RequestMapping;
+import com.idreamshen.zebra.enums.RequestMethod;
+import com.idreamshen.zebra.service.Service1;
+import com.idreamshen.zebra.service.Service2;
 
 @Controller
 public class HomeControllerImpl implements HomeController {

@@ -1,4 +1,4 @@
-package com.idreamshen.practice.spring.enums;
+package com.idreamshen.zebra.enums;
 
 public enum RequestMethod {
 

@@ -1,4 +1,6 @@
-package com.idreamshen.practice.spring.annotation;
+package com.idreamshen.zebra.annotation;
+
+import com.idreamshen.zebra.enums.RequestMethod;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +9,10 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Log {
+public @interface RequestMapping {
+
+    String path() default "";
+
+    RequestMethod method();
+
 }

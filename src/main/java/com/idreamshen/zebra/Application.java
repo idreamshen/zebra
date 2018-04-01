@@ -1,10 +1,8 @@
-package com.idreamshen.practice.spring;
+package com.idreamshen.zebra;
 
-import com.idreamshen.practice.spring.bean.BeanFactory;
-import com.idreamshen.practice.spring.controller.HomeController;
-import com.idreamshen.practice.spring.server.NettyHttpServer;
-
-import java.io.IOException;
+import com.idreamshen.zebra.bean.BeanFactory;
+import com.idreamshen.zebra.controller.HomeController;
+import com.idreamshen.zebra.server.NettyHttpServer;
 
 public class Application {
 

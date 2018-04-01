@@ -1,6 +1,6 @@
-package com.idreamshen.practice.spring.server;
+package com.idreamshen.zebra.server;
 
-import com.idreamshen.practice.spring.bean.BeanFactory;
+import com.idreamshen.zebra.bean.BeanFactory;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

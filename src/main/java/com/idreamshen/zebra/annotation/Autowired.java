@@ -1,11 +1,11 @@
-package com.idreamshen.practice.spring.annotation;
+package com.idreamshen.zebra.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Component {
+public @interface Autowired {
 }

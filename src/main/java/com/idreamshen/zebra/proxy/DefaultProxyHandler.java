@@ -1,6 +1,6 @@
-package com.idreamshen.practice.spring.proxy;
+package com.idreamshen.zebra.proxy;
 
-import com.idreamshen.practice.spring.annotation.Log;
+import com.idreamshen.zebra.annotation.Log;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

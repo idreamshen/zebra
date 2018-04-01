@@ -1,4 +1,4 @@
-package com.idreamshen.practice.spring.util;
+package com.idreamshen.zebra.util;
 
 import java.lang.reflect.Field;
 

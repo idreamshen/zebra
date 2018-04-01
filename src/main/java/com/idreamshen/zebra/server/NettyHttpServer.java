@@ -1,4 +1,4 @@
-package com.idreamshen.practice.spring.server;
+package com.idreamshen.zebra.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

@@ -1,11 +1,11 @@
-package com.idreamshen.practice.spring.bean;
+package com.idreamshen.zebra.bean;
 
-import com.idreamshen.practice.spring.annotation.Autowired;
-import com.idreamshen.practice.spring.annotation.Component;
-import com.idreamshen.practice.spring.annotation.Controller;
-import com.idreamshen.practice.spring.annotation.RequestMapping;
-import com.idreamshen.practice.spring.enums.RequestMethod;
-import com.idreamshen.practice.spring.util.ReflectUtil;
+import com.idreamshen.zebra.annotation.Autowired;
+import com.idreamshen.zebra.annotation.Component;
+import com.idreamshen.zebra.annotation.Controller;
+import com.idreamshen.zebra.annotation.RequestMapping;
+import com.idreamshen.zebra.enums.RequestMethod;
+import com.idreamshen.zebra.util.ReflectUtil;
 
 import java.io.File;
 import java.io.IOException;

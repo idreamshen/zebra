@@ -1,4 +1,4 @@
-package com.idreamshen.practice.spring.service;
+package com.idreamshen.zebra.service;
 
 public interface Service1 {
 
