@@ -1,9 +1,6 @@
-# spring-ioc-practice
-DIY - Spring IOC, DI, AOP
+# Zebra 轻量框架
+探索 Spring 实现原理
 
-实现一个简易的 Web 框架
-
-* 依赖注入
-* 控制反转
-* 切面编程
-* Netty 路由反射
+-[x] 依赖注入
+-[ ] 切面编程
+-[ ] Netty 路由反射
